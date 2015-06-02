@@ -151,18 +151,12 @@ my $encoder = JSON::MaybeXS->new->pretty;
 my $desc_json = $encoder->encode($desc);
 diag Dumper( \$desc_json );
 
-#my $desc = json: {
- #metad: {
-#    probedesc: [{
-#      #probes: $returnprobes,
-#      predicate: '$depth0 == stackdepth',
-#      clean: {
-#        vnode: '$0',
-#        depth: '$0',
-#        latency: '$0'
-#      }
-#    } ]
-#  }
-#};
+use_ok( 'Solaris::Perf::MetaD' );
+
+my $metad = Solaris::Perf::MetaD->new();
+
+isa_ok( $metad, 'Solaris::Perf::MetaD' );
+
+
 
 done_testing();

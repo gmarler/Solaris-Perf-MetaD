@@ -42,13 +42,20 @@ sub mdValidateMetaD {
 
   assert(defined($desc), 'missing argument metad');
 
-  foreach $key in (qw( metad fields )) {
-    assert(exists($desc{$key}), "desc object missing '$key'");
+  foreach $key (qw( metad fields )) {
+    assert(exists($desc->{$key}), "desc object missing '$key'");
   }
 
-  if (not exists($desc{'fields_internal'})) {
-    $desc{'fields_internal'} = [];
+  if (not exists($desc->{'fields_internal'})) {
+    $desc->{'fields_internal'} = [];
   }
+
+  #
+  # Build a set of all fields for reference, including internal fields
+  #
+  $allfields = {};
+
+  #for ($ii = 0; $ii < $desc
 }
 
 =method mdSanityCheck
