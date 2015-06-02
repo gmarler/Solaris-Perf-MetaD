@@ -9,7 +9,8 @@ my $metad = Solaris::Perf::MetaD->new();
 
 isa_ok( $metad, 'Solaris::Perf::MetaD' );
 
-$metad->mdSanityCheck();
+dies_ok(sub { $metad->mdSanityCheck() },
+        'assertion that $metric is defined fails');
 
 done_testing();
 

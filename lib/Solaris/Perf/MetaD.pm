@@ -6,7 +6,7 @@ use warnings;
 use Moose;
 use namespace::autoclean;
 use Inline::JSON;
-use Sub::Assert;
+use Carp::Assert;
 
 # 
 # A list of valid keys that we are allowed to see in a probedesc. We use a hash
@@ -44,10 +44,7 @@ sub mdSanityCheck
 {
   my ($self, $desc, $metric) = @_;
 
-  assert
-    pre => {
-      'metric is defined' => 'defined($metric)',
-    };
+  assert(defined($metric), 'metric is defined');
 }
 
 # 
