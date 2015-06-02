@@ -13,4 +13,3 @@ dies_ok(sub { $metad->mdSanityCheck() },
         'assertion that $metric is defined fails');
 
 done_testing();
-

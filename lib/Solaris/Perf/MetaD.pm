@@ -25,6 +25,31 @@ my $mdProbedescKeys = json: {
   "verify":       "true"
 };
 
+=method mdValidateMetaD
+
+Validate that a given description of an object makes sense and contains the
+correct fields for a Meta-D description.
+
+  desc    An object representing the description of a metric.
+
+=cut
+
+
+sub mdValidateMetaD {
+  my ($self, $desc) = @_;
+
+  my ($probedesc, $ii, $jj, $elt, $key, $ent, $ks, $locals, $allfields);
+
+  assert(defined($desc), 'missing argument metad');
+
+  foreach $key in (qw( metad fields )) {
+    assert(exists($desc{$key}), "desc object missing '$key'");
+  }
+
+  if (not exists($desc{'fields_internal'})) {
+    $desc{'fields_internal'} = [];
+  }
+}
 
 =method mdSanityCheck
  
@@ -44,7 +69,10 @@ sub mdSanityCheck
 {
   my ($self, $desc, $metric) = @_;
 
-  assert(defined($metric), 'metric is defined');
+  assert(defined($metric), 'missing argument $metric');
+
+  # Sanity check the $desc
+  $self->mdValidateMetaD($desc);
 }
 
 # 
