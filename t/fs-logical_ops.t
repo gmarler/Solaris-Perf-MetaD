@@ -2,7 +2,6 @@ use warnings;
 use strict;
 
 use Test::Most;
-use Inline::JSON;
 use JSON::MaybeXS;
 use Data::Dumper;
 

@@ -3,26 +3,28 @@ package Solaris::Perf::MetaD;
 use strict;
 use warnings;
 
+# VERSION
+# ABSTRACT: Perl Implementation of MetaD - transform JSON to D script
+
 use Moose;
 use namespace::autoclean;
-use Inline::JSON;
 use Carp::Assert;
 
-# 
+#
 # A list of valid keys that we are allowed to see in a probedesc. We use a hash
 # for faster lookup than iterating over an array.
-# 
+#
 
-my $mdProbedescKeys = json: {
-  "probes":       "true",
-  "gather":       "true",
-  "alwaysgather": "true",
-  "local":        "true",
-  "aggregate":    "true",
-  "transforms":   "true",
-  "predicate":    "true",
-  "clean":        "true",
-  "verify":       "true"
+my $mdProbedescKeys = {
+  probes       =>   "true",
+  gather       =>   "true",
+  alwaysgather =>   "true",
+  local        =>   "true",
+  aggregate    =>   "true",
+  transforms   =>   "true",
+  predicate    =>   "true",
+  clean        =>   "true",
+  verify       =>   "true",
 };
 
 =method mdValidateMetaD
