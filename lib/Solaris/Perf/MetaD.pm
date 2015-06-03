@@ -57,7 +57,16 @@ sub mdValidateMetaD {
   #
   $allfields = {};
 
-  #for ($ii = 0; $ii < $desc
+  for ($ii = 0; $ii < scalar(@{$desc->{'fields'}}); $ii++) {
+    $allfields->{$desc->{'fields'}[$ii]} = 'true';
+  }
+  for ($ii = 0; $ii < scalar(@{$desc->{'fields_internal'}}); $ii++) {
+    $allfields->{$desc->{'fields_internal'}[$ii]} = 'true';
+  }
+
+  # Examine the validate that the probedesc makes sense
+  assert(exists($desc->{'metad'}->{'probedesc'}),
+         "description's metad missing 'probedesc'");
 }
 
 =method mdSanityCheck
@@ -127,6 +136,30 @@ sub mdGenerateDScript
   $pragmazone = 0;
   $zonepred   = '';
 
+  if ($metric->{is_zones}) {
+    # If the number of zones to be instrumented is small, we use
+    # the DTrace zone pragma to instrument only the specified
+    # zones. However, this requires a DTrace enabling (and its
+    # associated DRAM) per zone, so if the number is not so small
+    # we just use a single enabling to instrument everything.
+    if ($desc->{metad}->{usepragmazone} and
+        scalar(@{$metric->{is_zones}}) < $md_pragma_maxzones) {
+      $pragmazone = 1;
+    }
+
+    # Create the zone predicate 
+    #$zonepred = dUtilOrPredArray(
+    #  [ map { 'zonename == "' . $_ . '"'; }
+    #    @{$metric->{is_zones}}
+    #  ]);
+  }
+
+  # Build the canonical list of fields we may need to gather
+  for ($ii = 0; $ii < scalar(@{$metric{is_decomposition}); $ii++) {
+    my $tmp = $metric->{is_decomposition}[$ii];
+    $decomps{$tmp} = $metadata->{fieldArity}[$tmp];
+    $fields{$tmp}  = 1;
+  }
 }
 
 

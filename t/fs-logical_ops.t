@@ -151,11 +151,16 @@ my $desc_json = $encoder->encode($desc);
 diag Dumper( \$desc_json );
 
 use_ok( 'Solaris::Perf::MetaD' );
+can_ok( 'Solaris::Perf::MetaD', 'mdValidateMetaD' );
 
 my $metad = Solaris::Perf::MetaD->new();
 
 isa_ok( $metad, 'Solaris::Perf::MetaD' );
 
+dies_ok( sub { $metad->mdValidateMetaD(); },
+         'Validation without desc must die' );
 
+lives_ok( sub { $metad->mdValidateMetaD($desc); },
+         'Validation with valid desc should live' );
 
 done_testing();
